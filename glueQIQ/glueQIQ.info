@@ -1,0 +1,6 @@
+name = QIQgroup Glue
+description = Glue Module for every QIQgroup project.
+package = QIQgroup Tools
+core = 7.x
+
+files[] = glueQIQ.module

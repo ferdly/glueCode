@@ -1,0 +1,7 @@
+name = Develioer Glue
+description = Glue Module for the any Project, both Templates and Out-of-the-Box.
+dependencies[] = devel
+package = QIQgroup Tools
+core = 7.x
+
+files[] = glueDeveloper.module

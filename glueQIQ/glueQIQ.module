@@ -1,0 +1,20 @@
+<?php
+/**
+ * Glue Module for every QIQgroup project.
+*/
+
+/**
+ * Implements hook_form_FORM_ID_alter
+ * \_ also exists, as template, in glueDEV
+*/
+  
+function glueQIQ_form_FORM_ID_alter(&$form, &$form_state, $form_id) {
+  drupal_set_message('THIS! - ' . $form_id);
+  /*$form['mergevars']['EMAIL']['#attributes'] = array(
+    'placeholder'=> t('Sign Up Now!'),
+    );*/
+  $form['mergevars']['name']['#attributes'] = array(
+    'autofocus'=> TRUE,
+    );
+  $form['mailchimp_lists']['mailchimp_529261']['subscribe']['#type'] = 'hidden';
+}

@@ -1,0 +1,8 @@
+name = TEMPLATE for Custom Glue
+description = Glue Module TEMPLATE for any particular Project as QIQgroup project.
+dependencies[] = devel
+dependencies[] = glueDeveloper
+package = QIQgroup Tools
+core = 7.x
+
+files[] = glueCustomTemplate.module

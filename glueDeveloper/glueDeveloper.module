@@ -1,0 +1,42 @@
+<?php
+/**
+ * Glue Module for the any Project, both Templates and Out-of-the-Box
+*/
+
+/**
+	Implements hook_form_alter()
+*/
+function glueDeveloper_form_alter(&$form, &$form_state, $form_id) {
+  drupal_set_message($form_id); // comment - uncomment as needed as dev-tool to see what form-ids are on the page
+}
+
+/**
+  Implements hook_form_FORM_ID_alter
+*/
+function glueDeveloper_form_FORM_ID_alter(&$form, &$form_state, $form_id) {
+ dpm($form);
+ drupal_set_message('THIS! - ' . $form_id);
+ dpm($form_state);
+ // $form['mergevars']['EMAIL']['#attributes'] = array(
+   // 'placeholder'=> t('Sign Up Now!'),
+    //);
+  //$form['mailchimp_lists']['mailchimp_529261']['subscribe']['#type'] = 'hidden';
+}
+
+/**
+ * syntactical candy that extends Devel's sdpm with all elements insinuated within an array
+ *
+ *@instructions: use as many variables as you wish, and it will create an array with the labels either 'fancy' or 'input-$i'
+ *
+*/	
+function qdpm($arg1 = 'one',$arg2 = 'two') {
+	$input_array = func_get_args();
+	$i = 0;
+	foreach ($input_array as $input_this) {
+		$i++;
+		$key_fancy = array_search ($input_this,$GLOBALS);
+		$key = empty($key_fancy)?'input'.$i:$key_fancy;
+		$input_as_array[$key] = $input_this;
+	}
+	return sdpm($input_as_array, 'qDPM');
+}
