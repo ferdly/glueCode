@@ -1,4 +1,4 @@
-name = Develioer Glue
+name = Developer Glue
 description = Glue Module for the any Project, both Templates and Out-of-the-Box.
 dependencies[] = devel
 package = QIQgroup Tools

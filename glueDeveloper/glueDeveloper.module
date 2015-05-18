@@ -7,7 +7,8 @@
 	Implements hook_form_alter()
 */
 function glueDeveloper_form_alter(&$form, &$form_state, $form_id) {
-  drupal_set_message($form_id); // comment - uncomment as needed as dev-tool to see what form-ids are on the page
+	// drupal_set_message('Line: ' . __LINE__. ' File: ' . __FILE__);
+	// drupal_set_message($form_id); // comment - uncomment as needed as dev-tool to see what form-ids are on the page
 }
 
 /**
@@ -39,4 +40,80 @@ function qdpm($arg1 = 'one',$arg2 = 'two') {
 		$input_as_array[$key] = $input_this;
 	}
 	return sdpm($input_as_array, 'qDPM');
+}
+
+/**
+ * Implements hook_menu().
+ */
+function glueDeveloper_menu() {
+	// drupal_set_message('Line: ' . __LINE__. 'File: ' . __FILE__);
+  $items['glueDeveloper/ondeck'] = array(
+    'title' => 'glueDeveloper On-Deck',
+    'description' => 'Simple glueDeveloper rendering of what is currently On-Deck',
+    'page callback' => 'glueDeveloper_ondeck_page',
+    'access callback' => TRUE,
+    'type'=> MENU_CALLBACK,
+  );
+  return $items;
+}
+
+
+/**
+ * Page demonstrating embedding a form on a page.
+ * This should be MOOT at this juncture, but seems like a more extensible way to work
+ */
+function glueDeveloper_ondeck_page($options = array()) {
+	drupal_set_message('Line: ' . __LINE__. ' File: ' . basename(__FILE__));
+
+	$buffer = '';
+	$options = array(); //extend-overload within the Switch-Case esoterically
+
+	$which = 'deveveloping_project';//WHICH developing project do you want to load On-Deck?
+	// $which = 'hello';// 'Hello World!' Example
+	$which = 'meta'; 
+	// $which = 'char';
+
+	switch ($which) {
+	 	case 'meta':
+			include_once 'src/metatag_qiqMigrate.php';
+			// $buffer .= render_node();
+			$buffer .= gather_mapped();
+			// $buffer .= gather_apt_sourceid();
+			// $buffer .= node_destid_load();
+
+	 		break;
+	 	case 'char':
+			include_once 'src/stray_char_qiqReplace.php';
+			// $buffer .= render_documentation();
+			// $buffer .= render_todo();
+
+	 		break;
+
+
+	 	case 'hello':
+			include_once 'src/loremipsum_qiqTemplate.php';
+			$buffer .= renderHelloWorldArray($options);
+			// $buffer .= render_documentation($options);
+			// $buffer .= render_todo($options);
+			break;
+	 	default:
+			include_once 'src/loremipsum_qiqTemplate.php';
+	 		$buffer .= renderDefault($options);
+	 		break;
+	 } 
+	$build = array(
+		'header_text' => array(
+		  '#type' => 'markup',
+		  '#markup' => '<p>' . t("Simple On-Deck Rendering for the glueDeveloper module:") . '</p><p>' . $buffer. '</p>',
+		),
+	);
+	return $build;
+}
+
+function renderDefault($options = array()) {
+	$buffer = '';
+	$buffer .= '<h2>This is the Default glueDeveloper&nbsp;&bull;&nbsp;On-Deck rendering</h2>';
+	$buffer .= '<h4>You are seeing this Default glueDeveloper&nbsp;&bull;&nbsp;On-Deck rendering because the $which variable did not match any of the Cases for the SWITCH statement that this uses.</h34>';
+	return $buffer;
+
 }
