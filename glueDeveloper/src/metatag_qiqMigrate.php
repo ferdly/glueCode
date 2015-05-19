@@ -30,31 +30,158 @@ function gather_apt_sourceid($sourceid){
 	return $result;
 }
 
+
+function gatherMapped($options = array()){
+		$mapped = 'db_select';
+		$gather_metatags = gatherMetaTags($mapped, $options);
+}
+
+function gatherMetaTags($mapped, &$options) {
+	$load_node_metatag = loadNodeMetatTags($mapped,$options);
+}
+function loadNodeMetatTags($mapped, &$options) {
+	$update_mapped = updateMapped($mapped, $options);
+}
+
+function updateMapped($mapped, &$options){
+}
+
 function gather_mapped($table_name = 'nodeword_mapped_brad', $count = 0) {
 	$line = ' Line: ' . (__LINE__ -1);
 	$count_default = 2; // set to anything, ZERO to disable default
-	$count = $count == 0?@$_POST['map_next_count'] + 0:$count; 
+	$count = $count == 0?@$_GET['map_next_count'] + 0:$count; 
 	$count = $count == 0?$count_default:$count;
 	if ($count + 0 == 0) {
 	 	return false;
 	 } 
 	
-	$random_sourceid_array[] = 26285; //12284
-	$random_sourceid_array[] = 6476; //3630
-	$random_sourceid_array[] = 23782; //7960
-	$random_sourceid_array[] = 5744; //3059
-	$random_sourceid_array[] = 23867; //8271
-	$random_sourceid_array[] = 10533; //6632
+	// $random_sourceid_array[] = 26285; //12284
+	// $random_sourceid_array[] = 6476; //3630
+	// $random_sourceid_array[] = 23782; //7960
+	// $random_sourceid_array[] = 5744; //3059
+	// $random_sourceid_array[] = 23867; //8271
+	// $random_sourceid_array[] = 10533; //6632
+	// $random_sourceid_array = array( //TEST 10
+	// 	4606, //2128 
+	// 	10640, //6893 
+	// 	4024, //2560 
+	// 	9937, //6127 
+	// 	7876, //4484 
+	// 	7437, //4152 
+	// 	26287, //12286 
+	// 	24977, //8869 
+	// 	24770, //8844 
+	// 	8549, //4893 
+	// );
+	// $random_sourceid_array = array( //TEST 10 APPENDED (10 should be skipped) 
+	// 	4606, //2128 
+	// 	10640, //6893 
+	// 	4024, //2560 
+	// 	9937, //6127 
+	// 	7876, //4484 
+	// 	7437, //4152 
+	// 	26287, //12286 
+	// 	24977, //8869 
+	// 	24770, //8844 
+	// 	8549, //4893 
+	// 	9638, //5899 
+	// 	23140, //7501 
+	// 	6341, //3525 
+	// 	2701, //7989 
+	// 	24213, //8275 
+	// 	23499, //7714 
+	// 	23545, //7745 
+	// 	25237, //9077 
+	// 	23392, //7606 
+	// 	3945, //1594 
+	// );
+	//  $random_sourceid_array = array( //Total to 30
+	// 	3948, //1596 
+	// 	8168, //4680 
+	// 	25412, //9229 
+	// 	25948, //9637 
+	// // );
+	// $random_sourceid_array = array( //Total to 50
+	// 	6429, //3674 z
+	// 	4095, //1716 z
+	// 	24296, //8339 z
+	// 	10714, //6839 z
+	// 	5451, //4116 z
+	// 	9216, //5605 z
+	// 	10648, //6720 z
+	// 	3679, //5339 z
+	// 	22755, //7162 z
+	// 	10072, //6228 z
+	// 	6196, //5284 z
+	// 	26334, //12328 
+	// 	7660, //4324 z
+	// 	22983, //7354 z
+	// 	23612, //7804 z
+	// 	4379, //1942 z
+	// 	9585, //5864 z
+	// 	25346, //9172 z
+	// 	24628, //8588 z
+	// 	24808, //9059 z
+	// );
+	// $random_sourceid_array = array( //bread; failed to eliminate error 
+	// 	5169, //2596 
+	// 	8133, //4624 
+	// 	25982, //9666 
+	// 	8926, //5290 
+	// 	26094, //9757 
+	// 	4963, //2572 
+	// 	25879, //9586 
+	// 	5086, //2524 
+	// 	23030, //7409 
+	// 	24209, //8260 
+	// 	23604, //7808 
+	// 	5596, //2951 
+	// 	6270, //3495 
+	// 	10656, //6738 
+	// 	26554, //12523 
+	// 	7461, //4168 
+	// 	25626, //9734 
+	// 	22897, //7282 
+	// 	24393, //8422 
+	// 	6004, //3248 
+	// 	25548, //9343 
+	// 	10578, //6691 
+	// 	6733, //3699 
+	// 	4497, //2044 
+	// 	25469, //9258 
+	// 	22750, //7159 
+	// 26334, //12328 again since page does not exist 
+	// );
 
-	$count = count($random_sourceid_array);
+	// $random_sourceid_array = array( 
+	// 	5200, //2626 
+	// 	25009, //8897 
+	// 	22931, //7323 
+	// 	10458, //6576 
+	// 	9907, //6112 
+	// 	3963, //1610 
+	// );
+	// $random_sourceid_array = array( 
+	// 	26558, //12524 
+	// 	7620, //4304 
+	// 	10801, //6843 
+	// 	7394, //4111 
+	// 	6388, //3559 
+	// 	// 26334, //12328 again since page does not exist 
+	// );
+	// $count = 10;
 	$query = db_select('nodeword_mapped_brad', 'nwmp')
 			->fields('nwmp')
 			->range(0,$count)
 			->condition('nwmp.is_mapped', 0)
-			->condition('nwmp.sourceid', $random_sourceid_array, 'IN')
+			// ->condition('nwmp.sourceid', $random_sourceid_array, 'IN')
 			->orderBy('nwmp.destid')
 			;
 	$result = $query->execute()->fetchAll();
+
+	if (count($result) == 0) {
+		return '<h3>No Mappings to Process!</h3>';
+	}
 
 	$apt_nodeword_name_array = array(
 		/* <after Wilbur return> from TeamWork task*/
@@ -69,22 +196,26 @@ function gather_mapped($table_name = 'nodeword_mapped_brad', $count = 0) {
 		'page_title'=>'title',
 		'copyright'=>'rights',
 		);
-	$pseudo_empty = 'a:1:{s:5:"value";s:0:"";}';
+	// $pseudo_empty = 'a:1:{s:5:"value";s:0:"";}';
+	$mapping_count = 0;
 	foreach ($result as $index => $mapping) {
 
-		// $source_array = gather_apt_sourceid($mapping->sourceid);
+		if ($mapping->sourceid + 0 == 0) {
+			break;
+		}
+		$mapping_count++;
 		$source_these = gather_apt_sourceid($mapping->sourceid);
-		// $result[$index]->source_these = $source_these;
 
 		$result[$index]->last_imported = date('Y-m-d H:i:s');
 		$result[$index]->count_skip = 0;
 		$result[$index]->count_empty = 0;
 		$result[$index]->count_write = 0;
-		// $result[$index]->source_these = $source_these;
+
 		foreach ($source_these as $src_index => $src_ob) {
 			if (in_array($src_ob->name, $apt_nodeword_name_array) === false) {
 				$result[$index]->count_skip++;
-			}elseif(empty($src_ob->content['value']) == true || $src_ob->content['value'] == $pseudo_empty) {
+			// }elseif(empty($src_ob->content['value']) == true || $src_ob->content['value'] == $pseudo_empty) {
+			}elseif(empty($src_ob->content['value']) == true) {
 				$result[$index]->count_empty++;
 			}else{
 				$result[$index]->count_write++;
@@ -93,7 +224,7 @@ function gather_mapped($table_name = 'nodeword_mapped_brad', $count = 0) {
 			}
 		}
 		if ($result[$index]->count_write > 0) {
-			if (1 == 1) {
+			if (1 != 20150519) {
 				$node_ob_this = node_load($mapping->destid);
 				$node_ob_this->metatags[$node_ob_this->language] = $result[$index]->meta_array;
 				node_save($node_ob_this);
@@ -104,40 +235,38 @@ function gather_mapped($table_name = 'nodeword_mapped_brad', $count = 0) {
 			$result[$index]->is_mapped = 9;
 			$result[$index]->rollback_action = 'S:' . $result[$index]->count_skip . ';E:' . $result[$index]->count_empty . ';W:' . $result[$index]->count_write . ';';
 		}
-		db_update('nodeword_mapped_brad')
-    ->expression('is_mapped', ':is_mapped', array(':is_mapped' => $mapping->is_mapped))
-    ->expression('rollback_action', ':rollback_action', array(':rollback_action' => $mapping->rollback_action))
-    ->expression('last_imported', ':last_imported', array(':last_imported' => $mapping->last_imported))
-    ->condition('sourceid', $mapping->sourceid)
-    ->condition('destid', $mapping->destid)
-    ->execute()
-    ;
+		$update = updateMapping($result[$index]->sourceid, $result[$index]->destid, $result[$index]->is_mapped, $result[$index]->rollback_action, $result[$index]->last_imported);
+
 		$node_these[$mapping->destid] = $mapping->destid;
 	}
 
-		db_update('nodeword_mapped_brad')
-    ->expression('is_mapped', ':is_mapped', array(':is_mapped' => $result[$index]->is_mapped))
-    ->expression('rollback_action', ':rollback_action', array(':rollback_action' => $result[$index]->rollback_action))
-    ->expression('last_imported', ':last_imported', array(':last_imported' => $result[$index]->last_imported))
-    ->condition('sourceid', $result[$index]->sourceid)
-    ->condition('destid', $result[$index]->destid)
-    ->execute()
-    ;
-
 	$mapped = $result;
 
-	// $mapped = $node_these;
-	// $mapped = node_load_multiple($node_these);
-	// unset($mapped);
-	// $mapped = $sql;
-
 	$buffer = '';
+	$buffer .= '<h4>Counts: '. $count . ' (GET); '. $mapping_count . ' (result); ' . '</h4>';
 	$buffer .= '<h4>Function: '. __FUNCTION__ . '()' . $line . '</h4>';
 	$buffer .= '<pre>';
 	$buffer .= print_r($mapped, true);
 	$buffer .= '</pre>';
 
 	return $buffer;
+}
+
+function updateMapping($sourceid, $destid, $is_mapped, $rollback_action, $last_imported) {
+		$update = db_update('nodeword_mapped_brad')
+		->fields(array(
+			'is_mapped' => $is_mapped, 
+			'rollback_action' => $rollback_action, 
+			'last_imported' => $last_imported,
+			))
+    // ->expression('is_mapped', $is_mapped)
+    // ->expression('rollback_action', $rollback_action)
+    // ->expression('last_imported', $last_imported)
+    ->condition('sourceid', $sourceid)
+    ->condition('destid', $destid)
+    ->execute()
+    ;
+    return $update;
 }
 function node_destid_load($nid = 0) {
 	$line = ' Line: ' . (__LINE__ -1);
