@@ -7,7 +7,7 @@
  * Implements hook_form_FORM_ID_alter
  * \_ also exists, as template, in glueDEV
 */
-  
+
 function glueQIQ_form_FORM_ID_alter(&$form, &$form_state, $form_id) {
   drupal_set_message('THIS! - ' . $form_id);
   /*$form['mergevars']['EMAIL']['#attributes'] = array(
@@ -17,4 +17,69 @@ function glueQIQ_form_FORM_ID_alter(&$form, &$form_state, $form_id) {
     'autofocus'=> TRUE,
     );
   $form['mailchimp_lists']['mailchimp_529261']['subscribe']['#type'] = 'hidden';
+}
+
+/**
+ * envokes hook_field_attach_presave
+*/
+function glueQIQ_field_attach_presave($entity_type, $entity) {
+    // dpm($entity, '$entity Param');
+    $presave_array = array();
+    $delta_atled = 0;
+    //$presave_array['entity_type']['entity_bundle']['lang'][$delta_atled]['fieldname']['UPPER'] = true;
+    foreach ($presave_array as $entity_type => $bundle_array) {
+        foreach ($bundle_array as $entity_bundle => $lang_array) {
+            foreach ($lang_array as $language => $delta_array) {
+                foreach ($delta_array as $delta_atled_index => $field_array) {
+                    foreach ($field_array as $fieldname => $presave_action) {
+                        $result = $entity->$fieldname[$language][$delta_atled_index][$fieldname];
+                        $pre_trim = $entity->$fieldname[$language][$delta_atled_index][$fieldname]['PRE_TRIM'] === false?false:true;
+                        $post_trim = $entity->$fieldname[$language][$delta_atled_index][$fieldname]['POST_TRIM'] === false?false:true;
+                        if ($pre_trim) {
+                            $result = trim($result);
+                        }
+                        /*<SWITCH Action>*/
+                        switch ($presave_action) {
+                            case 'UPPER':
+                                $result = strtoupper($entity->$fieldname[$language][$delta_atled_index][$fieldname]);
+                                break;
+                            case 'lower':
+                                $result = strtolower($entity->$fieldname[$language][$delta_atled_index][$fieldname]);
+                                break;
+
+                            default:
+                                $do = 'nothing'; // eventually log unsupported $presave_action values
+                                break;
+                        /*</SWITCH Action>*/
+                        if ($post_trim) {
+                            $result = trim($result);
+                        }
+                        /*<SWITCH Assign>*/
+                        switch ($presave_action) {
+                            case 'UPPER':
+                                $entity->$fieldname[$language][$delta_atled_index][$fieldname] = $result;
+                                break;
+                            case 'lower':
+                                $entity->$fieldname[$language][$delta_atled_index][$fieldname] = $result;
+                                break;
+
+                            default:
+                                $do = 'nothing'; // eventually log unsupported $presave_action values
+                                break;
+                        /*</SWITCH Assign>*/
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    if ($entity->type == 'test_car') {
+        $upper_vin = strtoupper($entity->field_vin_car['und'][0]['vin']);
+        $entity->field_vin_car['und'][0]['vin'] = $upper_vin;
+    }
+    if ($entity->type == 'vehicle') {
+        $upper_vin = strtoupper($entity->field_vin['und'][0]['vin']);
+        $entity->field_vin['und'][0]['vin'] = $upper_vin;
+    }
 }
