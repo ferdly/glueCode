@@ -1,0 +1,16 @@
+name = VIN Field ISO Explode
+; machine name vf_iso_explode
+description = returns Exploded Data from VIN by the ISO 3833 Specification
+;http://www.iso.org/iso/iso_catalogue/catalogue_tc/catalogue_detail.htm?csnumber=9389
+;https://en.wikipedia.org/wiki/Vehicle_identification_number
+package = Fields
+core = 7.x
+
+dependencies[] = vinfield
+
+; Information added by Drupal.org packaging script on 2015-01-20
+;version = "7.x-1.x-dev"
+;core = "7.x"
+;project = "vinfield"
+;datestamp = "1421775482"
+
