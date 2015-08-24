@@ -35,8 +35,8 @@ class vin
 public function __construct($vin_input)
 {
     $this->vin = $vin_input;
-    $this->vin_pre_validate();
-    if ($this->is_valid() !== true) {
+    $this->pre_validate();
+    if ($this->is_valid !== true) {
         return;
     }
     $this->set_attributes();
@@ -45,9 +45,11 @@ public function __construct($vin_input)
 public function pre_validate()
 {
     $is_valid = true; // proof by contradiction
-    if (strlen(trim($this->vin)) != 17) {
-        $this->error_code = 99999;// see set_error_string()
-        $this->set_error_string();
+    $is_valid = strlen(trim($this->vin)) == 17?$is_valid:false;
+    if ($is_valid !== true) {
+        $this->error_code = 99999.1;// see set_error_string()
+        $this->set_error_string($this->error_code);
+        $this->is_valid = $is_valid;
         return;
     }
     $this->vin = strtoupper(trim($this->vin));
@@ -57,6 +59,12 @@ public function pre_validate()
         $is_valid = $this->vin[$i] == 'O'?false:$is_valid;
         $is_valid = $this->vin[$i] == 'Q'?false:$is_valid;
     }
+    if ($is_valid !== true) {
+        $this->error_code = 99999.2;// see set_error_string()
+        $this->set_error_string($this->error_code);
+        $this->is_valid = $is_valid;
+        return;
+    }
     $this->is_valid = $is_valid;
 }
 
@@ -65,25 +73,27 @@ public function pre_validate()
  */
 public function set_attributes()
 {
-    set_wmi_attributes();
+    $this->set_wmi_attributes();
 }
 public function set_wmi_attributes()
 {
-    require_once 'iso_3833_arrays.inc';
+    require_once 'iso_3833_lookups.inc';
 
 
     $wmi = $this->vin;
     $wmi = substr($wmi, 0, 3);
     $cat_div_key = substr($wmi, -1);
-    $wmi_cat_div_code = 'code pending';
-    $wmi_cat_div_string = 'string pending';
+    $wmi_cat_div_code = "code pending [{$cat_div_key}]";
+    $wmi_cat_div_string = "string pending [{$cat_div_key}]";
     $wmi_peryear__gt_d = $cat_div_key == '9'?false:true;
     $continent_key = $wmi[0];
     $wmi_continent_code = $continent_code_array[$continent_key];
-    $wmi_continent_string = $continent_string_array[$continent_code];
+    $wmi_continent_string = $continent_string_array[$wmi_continent_code];
     $country_key = substr($wmi, 1, 1);
     $collapse_country_key = collapse_country_code($continent_key, $country_key);
+    $wmi_country_code = "[{$continent_key}][{$collapse_country_key}-{$country_key}]";
     $wmi_country_string = $country_collapse_string_array[$continent_key][$collapse_country_key];
+
     $this->wmi_continent_code = $wmi_continent_code;
     $this->wmi_continent_string = $wmi_continent_string;
     $this->wmi_country_code = $wmi_country_code;
@@ -93,4 +103,14 @@ public function set_wmi_attributes()
     $this->wmi_peryear__gt_d = $wmi_peryear__gt_d;
 
 }
+
+
+public function set_error_string($error_code)
+{
+    $buffer = '';
+    $buffer .= "Error Code [{$error_code}] is currently undefined";
+    $this->error_string = $buffer;
+    // return $buffer;
+}
+
 }

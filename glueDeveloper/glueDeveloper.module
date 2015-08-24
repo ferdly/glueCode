@@ -29,7 +29,7 @@ function glueDeveloper_form_FORM_ID_alter(&$form, &$form_state, $form_id) {
  *
  *@instructions: use as many variables as you wish, and it will create an array with the labels either 'fancy' or 'input-$i'
  *
-*/	
+*/
 function qdpm($arg1 = 'one',$arg2 = 'two') {
 	$input_array = func_get_args();
 	$i = 0;
@@ -70,10 +70,16 @@ function glueDeveloper_ondeck_page($options = array()) {
 
 	$which = 'deveveloping_project';//WHICH developing project do you want to load On-Deck?
 	// $which = 'hello';// 'Hello World!' Example
-	$which = 'meta'; 
+	// $which = 'meta';
+	$which = 'vin';
 	// $which = 'char';
 
 	switch ($which) {
+		case 'vin':
+			include_once 'src/vf_iso_explode/src/iso_3833_output.inc';
+			$buffer .= $output;
+
+	 		break;
 	 	case 'meta':
 			include_once 'src/metatag_qiqMigrate.php';
 			// $buffer .= render_node();
@@ -100,11 +106,11 @@ function glueDeveloper_ondeck_page($options = array()) {
 			include_once 'src/loremipsum_qiqTemplate.php';
 	 		$buffer .= renderDefault($options);
 	 		break;
-	 } 
+	 }
 	$build = array(
 		'header_text' => array(
 		  '#type' => 'markup',
-		  '#markup' => '<p>' . t("Simple On-Deck Rendering for the glueDeveloper module:") . '</p><p>' . $buffer. '</p>',
+		  '#markup' => '<p>' . t("Simple On-Deck Rendering for the glueDeveloper module:") . '</p><p><pre>' . $buffer. '</pre></p>',
 		),
 	);
 	return $build;
